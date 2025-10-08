@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface InventoryService {
     List<EventInventoryResponse> getAllEvents();
     Optional<VenueInventoryResponse> getVenueInformation(Long venueId);
+    Optional<EventInventoryResponse> getEventInventory(Long eventId);
 }

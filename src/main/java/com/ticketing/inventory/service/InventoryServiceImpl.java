@@ -40,4 +40,8 @@ public class InventoryServiceImpl implements InventoryService {
         return venueRepository.findById(venueId).map(venueMapper::venueToVenueInventoryResponse);
     }
 
+    @Override
+    public Optional<EventInventoryResponse> getEventInventory(Long eventId) {
+        return eventRepository.findById(eventId).map(eventMapper::eventToEventInventoryResponse);
+    }
 }
