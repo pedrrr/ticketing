@@ -1,6 +1,6 @@
-package com.example.inventory.repository;
+package com.ticketing.inventory.repository;
 
-import com.example.inventory.entity.Event;
+import com.ticketing.inventory.entity.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

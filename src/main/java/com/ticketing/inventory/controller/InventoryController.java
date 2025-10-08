@@ -1,9 +1,8 @@
-package com.example.inventory.controller;
+package com.ticketing.inventory.controller;
 
-import com.example.inventory.response.EventInventoryResponse;
-import com.example.inventory.response.VenueInventoryResponse;
-import com.example.inventory.service.InventoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ticketing.inventory.response.EventInventoryResponse;
+import com.ticketing.inventory.response.VenueInventoryResponse;
+import com.ticketing.inventory.service.InventoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
