@@ -1,7 +1,7 @@
-package com.example.inventory.service;
+package com.ticketing.inventory.service;
 
-import com.example.inventory.response.EventInventoryResponse;
-import com.example.inventory.response.VenueInventoryResponse;
+import com.ticketing.inventory.response.EventInventoryResponse;
+import com.ticketing.inventory.response.VenueInventoryResponse;
 
 import java.util.List;
 import java.util.Optional;

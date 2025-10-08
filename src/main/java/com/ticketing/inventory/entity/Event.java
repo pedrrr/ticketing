@@ -1,4 +1,4 @@
-package com.example.inventory.entity;
+package com.ticketing.inventory.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
