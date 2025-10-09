@@ -1,5 +1,10 @@
 package com.ticketing.inventory.response;
 
-public record EventInventoryResponse(String name,
+import java.math.BigDecimal;
+
+public record EventInventoryResponse(Long id,
+                                     String name,
                                      Long leftCapacity,
-                                     VenueInventoryResponse venue) {}
+                                     VenueInventoryResponse venue,
+                                     BigDecimal ticketPrice) {
+}
