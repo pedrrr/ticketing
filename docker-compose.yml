@@ -10,9 +10,41 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - .docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - db-data:/var/lib/mysql
-      - db-data:/var/log/mysql
+
+  inventory:
+    build:
+      context: ./services/inventory
+    image: ticketing-inventory:latest
+    container_name: inventory
+    depends_on:
+      - mysql
+      - kafka-broker
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ticketing
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8080:8080"
+
+  booking:
+    build:
+      context: services/booking
+    image: ticketing-booking:latest
+    container_name: booking
+    depends_on:
+      - mysql
+      - kafka-broker
+      - inventory
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ticketing
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      INVENTORY_SERVICE_URL: http://inventory:8080/api/v1/inventory
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
+    ports:
+      - "8081:8081"
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
