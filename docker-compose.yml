@@ -1,3 +1,4 @@
+name: ticketing
 
 services:
   mysql:
@@ -12,6 +13,11 @@ services:
     volumes:
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ppassword"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
 
   inventory:
     build:
@@ -19,8 +25,10 @@ services:
     image: ticketing-inventory:latest
     container_name: inventory
     depends_on:
-      - mysql
-      - kafka-broker
+      mysql:
+        condition: service_healthy
+      kafka-broker:
+        condition: service_started
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ticketing
       SPRING_DATASOURCE_USERNAME: root
@@ -45,6 +53,25 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
     ports:
       - "8081:8081"
+
+  order:
+    build:
+      context: services/order
+    image: ticketing-order:latest
+    container_name: order
+    depends_on:
+      - inventory
+      - booking
+      - mysql
+      - kafka-broker
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ticketing
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      INVENTORY_SERVICE_URL: http://inventory:8080/api/v1/inventory
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
+    ports:
+      - "8082-8082"
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
