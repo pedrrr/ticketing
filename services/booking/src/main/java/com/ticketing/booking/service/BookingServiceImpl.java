@@ -62,7 +62,8 @@ public class BookingServiceImpl implements BookingService {
     private BookingEvent createBookingEvent(BookingRequest bookingRequest,
                                             Customer customer,
                                             InventoryResponse inventoryResponse) {
-        return new BookingEvent(customer.getId(),
+        return new BookingEvent(
+                customer.getId(),
                 inventoryResponse.id(),
                 bookingRequest.ticketCount(),
                 inventoryResponse.ticketPrice()

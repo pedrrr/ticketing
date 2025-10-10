@@ -1,10 +1,7 @@
-package com.ticketing.booking.event;
-
-import lombok.Builder;
+package com.ticketing.order.event;
 
 import java.math.BigDecimal;
 
-@Builder
 public record BookingEvent(Long userId,
                            Long eventId,
                            Long ticketCount,
