@@ -1,6 +1,5 @@
 package com.ticketing.order.entity;
 
-import com.ticketing.order.event.BookingEvent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +23,6 @@ public class Order {
     @Column(name = "total")
     private BigDecimal totalPrice;
     @Column(name = "quantity")
-    private Long quantity;
-    @Column(name = "ticket_count")
     private Long ticketCount;
     @CreationTimestamp
     @Column(name = "placed_at", updatable = false, nullable = false)

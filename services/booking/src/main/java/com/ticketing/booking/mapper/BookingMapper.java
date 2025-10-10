@@ -1,9 +1,9 @@
 package com.ticketing.booking.mapper;
 
 import com.ticketing.booking.entity.Booking;
-import com.ticketing.booking.event.BookingEvent;
 import com.ticketing.booking.request.BookingRequest;
 import com.ticketing.booking.response.BookingResponse;
+import com.ticketing.common.event.BookingEvent;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

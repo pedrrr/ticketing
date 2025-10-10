@@ -2,12 +2,12 @@ package com.ticketing.booking.service;
 
 import com.ticketing.booking.client.InventoryServiceClientImpl;
 import com.ticketing.booking.entity.Customer;
-import com.ticketing.booking.event.BookingEvent;
 import com.ticketing.booking.mapper.BookingMapper;
 import com.ticketing.booking.repository.BookingRepository;
 import com.ticketing.booking.request.BookingRequest;
 import com.ticketing.booking.response.BookingResponse;
 import com.ticketing.booking.response.InventoryResponse;
+import com.ticketing.common.event.BookingEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
