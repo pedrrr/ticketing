@@ -1,8 +1,7 @@
 package com.ticketing.inventory.service;
 
-import com.ticketing.inventory.request.TicketsBookedRequest;
-import com.ticketing.inventory.response.EventInventoryResponse;
-import com.ticketing.inventory.response.VenueInventoryResponse;
+import com.ticketing.common.response.EventInventoryResponse;
+import com.ticketing.common.response.VenueInventoryResponse;
 
 import java.util.List;
 import java.util.Optional;

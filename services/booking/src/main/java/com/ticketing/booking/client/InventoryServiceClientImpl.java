@@ -1,16 +1,13 @@
 package com.ticketing.booking.client;
 
 import com.ticketing.booking.exception.ResourceNotFoundException;
-import com.ticketing.booking.response.InventoryResponse;
+import com.ticketing.common.response.EventInventoryResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Optional;
 
 @Service
 public class InventoryServiceClientImpl implements InventoryServiceClient {
@@ -19,11 +16,11 @@ public class InventoryServiceClientImpl implements InventoryServiceClient {
     private String inventoryServiceUrl;
 
     @Override
-    public InventoryResponse getInventory(Long eventId) {
+    public EventInventoryResponse getInventory(Long eventId) {
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<InventoryResponse> inventoryResponseEntity =
-                    restTemplate.getForEntity(inventoryServiceUrl + "/events/" + eventId, InventoryResponse.class);
+            ResponseEntity<EventInventoryResponse> inventoryResponseEntity =
+                    restTemplate.getForEntity(inventoryServiceUrl + "/events/" + eventId, EventInventoryResponse.class);
             return inventoryResponseEntity.getBody();
         } catch (HttpClientErrorException.NotFound ex) {
             throw ResourceNotFoundException.eventNotFound(eventId);
