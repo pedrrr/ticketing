@@ -1,9 +1,13 @@
 package com.ticketing.booking.client;
 
+import com.ticketing.booking.exception.ResourceNotFoundException;
 import com.ticketing.booking.response.InventoryResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
@@ -15,14 +19,17 @@ public class InventoryServiceClientImpl implements InventoryServiceClient {
     private String inventoryServiceUrl;
 
     @Override
-    public Optional<InventoryResponse> getInventory(Long eventId) {
+    public InventoryResponse getInventory(Long eventId) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<InventoryResponse> inventoryResponseEntity = restTemplate
-                .getForEntity(inventoryServiceUrl + "/events/" + eventId, InventoryResponse.class);
-
-        return (inventoryResponseEntity.getStatusCode().is2xxSuccessful() &&
-            inventoryResponseEntity.getBody() != null)
-                ? Optional.of(inventoryResponseEntity.getBody())
-                : Optional.empty();
+        try {
+            ResponseEntity<InventoryResponse> inventoryResponseEntity =
+                    restTemplate.getForEntity(inventoryServiceUrl + "/events/" + eventId, InventoryResponse.class);
+            return inventoryResponseEntity.getBody();
+        } catch (HttpClientErrorException.NotFound ex) {
+            throw ResourceNotFoundException.eventNotFound(eventId);
+        } catch (RestClientException ex) {
+            throw new RuntimeException("Error connecting to inventory service.", ex);
+            // todo : handle 4xx and 5xx errors using advices
+        }
     }
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public abstract class InventoryException extends RuntimeException {
+public abstract class BookingException extends RuntimeException {
     private final String error;
     private final String errorMessage;
 }
