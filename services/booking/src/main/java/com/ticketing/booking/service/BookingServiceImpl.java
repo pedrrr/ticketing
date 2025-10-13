@@ -2,6 +2,7 @@ package com.ticketing.booking.service;
 
 import com.ticketing.booking.client.InventoryServiceClientImpl;
 import com.ticketing.booking.entity.Customer;
+import com.ticketing.booking.exception.EventInventoryException;
 import com.ticketing.booking.mapper.BookingMapper;
 import com.ticketing.booking.repository.BookingRepository;
 import com.ticketing.booking.request.BookingRequest;
@@ -48,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
         log.info("Inventory response: {}", inventoryResponse);
 
         if(!enoughInventory(inventoryResponse.leftCapacity(), bookingRequest.ticketCount()))
-            throw new RuntimeException("Not enough inventory."); // todo: handle exeption with advices
+            throw EventInventoryException.notEnoughTickets(inventoryResponse.id());
 
         BookingEvent bookingEvent = createBookingEvent(bookingRequest, customer, inventoryResponse);
         bookingKafkaTemplate.send("booking", bookingEvent);
