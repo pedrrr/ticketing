@@ -1,4 +1,4 @@
-package com.ticketing.booking.event;
+package com.ticketing.common.event;
 
 import java.math.BigDecimal;
 

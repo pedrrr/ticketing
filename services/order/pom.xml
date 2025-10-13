@@ -8,7 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
+    <groupId>com.ticketing</groupId>
     <artifactId>order</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <name>order</name>
     <properties>
         <java.version>21</java.version>
@@ -39,12 +41,18 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>${org.projectlombok.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ticketing</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
@@ -61,6 +69,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${org.projectlombok.version}</version>
                         </path>
                         <path>
                             <groupId>org.mapstruct</groupId>

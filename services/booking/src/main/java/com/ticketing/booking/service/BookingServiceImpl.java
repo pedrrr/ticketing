@@ -2,12 +2,13 @@ package com.ticketing.booking.service;
 
 import com.ticketing.booking.client.InventoryServiceClientImpl;
 import com.ticketing.booking.entity.Customer;
-import com.ticketing.booking.event.BookingEvent;
+import com.ticketing.booking.exception.BookingValidationException;
+import com.ticketing.booking.exception.ResourceNotFoundException;
 import com.ticketing.booking.mapper.BookingMapper;
-import com.ticketing.booking.repository.BookingRepository;
 import com.ticketing.booking.request.BookingRequest;
 import com.ticketing.booking.response.BookingResponse;
 import com.ticketing.booking.response.InventoryResponse;
+import com.ticketing.common.event.BookingEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -38,17 +39,16 @@ public class BookingServiceImpl implements BookingService {
 
         Optional<Customer> customerOptional = customerService.findById(bookingRequest.userId());
         if(customerOptional.isEmpty())
-            throw new RuntimeException("User not found."); // todo: handle exeption with advices
+            throw ResourceNotFoundException.customerNotFound(bookingRequest.userId());
         Customer customer = customerOptional.get();
 
-        Optional<InventoryResponse> inventoryResponseOptional = inventoryServiceClient.getInventory(bookingRequest.eventId());
-        if(inventoryResponseOptional.isEmpty())
-            throw new RuntimeException("Event not found."); // todo: handle exeption with advices
-        InventoryResponse inventoryResponse = inventoryResponseOptional.get();
+        InventoryResponse inventoryResponse = inventoryServiceClient.getInventory(bookingRequest.eventId());
         log.info("Inventory response: {}", inventoryResponse);
 
         if(!enoughInventory(inventoryResponse.leftCapacity(), bookingRequest.ticketCount()))
-            throw new RuntimeException("Not enough inventory."); // todo: handle exeption with advices
+            throw BookingValidationException.notEnoughTicketsAtEvent(inventoryResponse.id(),
+                    inventoryResponse.leftCapacity(),
+                    bookingRequest.ticketCount());
 
         BookingEvent bookingEvent = createBookingEvent(bookingRequest, customer, inventoryResponse);
         bookingKafkaTemplate.send("booking", bookingEvent);
@@ -62,7 +62,8 @@ public class BookingServiceImpl implements BookingService {
     private BookingEvent createBookingEvent(BookingRequest bookingRequest,
                                             Customer customer,
                                             InventoryResponse inventoryResponse) {
-        return new BookingEvent(customer.getId(),
+        return new BookingEvent(
+                customer.getId(),
                 inventoryResponse.id(),
                 bookingRequest.ticketCount(),
                 inventoryResponse.ticketPrice()
