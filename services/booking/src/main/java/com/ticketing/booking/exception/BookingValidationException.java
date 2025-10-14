@@ -38,4 +38,10 @@ public class BookingValidationException extends BookingException {
                 eventId,
                 "ticketCount");
     }
+
+    public static BookingValidationException invalidValueProvided(String validationField, String errorMessage) {
+        return new BookingValidationException("INVALID_VALUE_PROVIDED",
+                errorMessage,
+                validationField);
+    }
 }

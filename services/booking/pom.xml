@@ -8,8 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-	<groupId>com.ticketing</groupId>
-	<artifactId>booking</artifactId>
+    <artifactId>booking</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>booking</name>
 	<properties>
@@ -58,6 +57,10 @@
             <groupId>com.ticketing</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 	</dependencies>
 

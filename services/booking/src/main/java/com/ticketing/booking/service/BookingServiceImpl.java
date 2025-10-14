@@ -7,8 +7,8 @@ import com.ticketing.booking.exception.ResourceNotFoundException;
 import com.ticketing.booking.mapper.BookingMapper;
 import com.ticketing.booking.request.BookingRequest;
 import com.ticketing.booking.response.BookingResponse;
-import com.ticketing.booking.response.InventoryResponse;
 import com.ticketing.common.event.BookingEvent;
+import com.ticketing.common.response.EventInventoryResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -42,15 +42,15 @@ public class BookingServiceImpl implements BookingService {
             throw ResourceNotFoundException.customerNotFound(bookingRequest.userId());
         Customer customer = customerOptional.get();
 
-        InventoryResponse inventoryResponse = inventoryServiceClient.getInventory(bookingRequest.eventId());
-        log.info("Inventory response: {}", inventoryResponse);
+        EventInventoryResponse eventInventoryResponse = inventoryServiceClient.getInventory(bookingRequest.eventId());
+        log.info("Inventory response: {}", eventInventoryResponse);
 
-        if(!enoughInventory(inventoryResponse.leftCapacity(), bookingRequest.ticketCount()))
-            throw BookingValidationException.notEnoughTicketsAtEvent(inventoryResponse.id(),
-                    inventoryResponse.leftCapacity(),
+        if(!enoughInventory(eventInventoryResponse.leftCapacity(), bookingRequest.ticketCount()))
+            throw BookingValidationException.notEnoughTicketsAtEvent(eventInventoryResponse.id(),
+                    eventInventoryResponse.leftCapacity(),
                     bookingRequest.ticketCount());
 
-        BookingEvent bookingEvent = createBookingEvent(bookingRequest, customer, inventoryResponse);
+        BookingEvent bookingEvent = createBookingEvent(bookingRequest, customer, eventInventoryResponse);
         bookingKafkaTemplate.send("booking", bookingEvent);
         log.info("Booking sent to Kafka: {}", bookingEvent);
 
@@ -61,12 +61,12 @@ public class BookingServiceImpl implements BookingService {
     }
     private BookingEvent createBookingEvent(BookingRequest bookingRequest,
                                             Customer customer,
-                                            InventoryResponse inventoryResponse) {
+                                            EventInventoryResponse eventInventoryResponse) {
         return new BookingEvent(
                 customer.getId(),
-                inventoryResponse.id(),
+                eventInventoryResponse.id(),
                 bookingRequest.ticketCount(),
-                inventoryResponse.ticketPrice()
+                eventInventoryResponse.ticketPrice()
                         .multiply(BigDecimal.valueOf(bookingRequest.ticketCount())));
     }
 

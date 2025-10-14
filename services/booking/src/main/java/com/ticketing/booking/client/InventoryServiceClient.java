@@ -1,9 +1,6 @@
 package com.ticketing.booking.client;
-
-import com.ticketing.booking.response.InventoryResponse;
-
-import java.util.Optional;
+import com.ticketing.common.response.EventInventoryResponse;
 
 public interface InventoryServiceClient {
-    InventoryResponse getInventory(Long eventId);
+    EventInventoryResponse getInventory(Long eventId);
 }

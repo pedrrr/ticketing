@@ -1,16 +1,12 @@
 package com.ticketing.inventory.controller;
 
-import com.ticketing.inventory.request.TicketsBookedRequest;
-import com.ticketing.inventory.response.EventInventoryResponse;
-import com.ticketing.inventory.response.VenueInventoryResponse;
+import com.ticketing.common.response.EventInventoryResponse;
+import com.ticketing.common.response.VenueInventoryResponse;
 import com.ticketing.inventory.service.InventoryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/inventory")

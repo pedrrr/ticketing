@@ -1,4 +1,4 @@
-package com.ticketing.inventory.response;
+package com.ticketing.common.response;
 
 import java.math.BigDecimal;
 

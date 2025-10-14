@@ -1,17 +1,14 @@
 package com.ticketing.inventory.service;
 
+import com.ticketing.common.response.EventInventoryResponse;
+import com.ticketing.common.response.VenueInventoryResponse;
 import com.ticketing.inventory.entity.Event;
-import com.ticketing.inventory.exception.EventInventoryException;
 import com.ticketing.inventory.mapper.EventMapper;
 import com.ticketing.inventory.mapper.VenueMapper;
 import com.ticketing.inventory.repository.EventRepository;
 import com.ticketing.inventory.repository.VenueRepository;
-import com.ticketing.inventory.request.TicketsBookedRequest;
-import com.ticketing.inventory.response.EventInventoryResponse;
-import com.ticketing.inventory.response.VenueInventoryResponse;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,8 +56,6 @@ public class InventoryServiceImpl implements InventoryService {
         if (eventOptional.isEmpty())
             return Optional.empty();
         Event event = eventOptional.get();
-        if (event.getLeftCapacity() - ticketsBooked < 0)
-            throw EventInventoryException.notEnoughTickets(ticketsBooked);
         event.setLeftCapacity(event.getLeftCapacity() - ticketsBooked);
         log.info("Updated event capacity: {}", event);
         return Optional.of(eventMapper.eventToEventInventoryResponse(eventRepository.save(event)));
