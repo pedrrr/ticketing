@@ -71,7 +71,19 @@ services:
       INVENTORY_SERVICE_URL: http://inventory:8080/api/v1/inventory
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
     ports:
-      - "8082-8082"
+      - "8082:8082"
+
+  gateway:
+    build:
+      context: services/gateway
+    image: ticketing-gateway:latest
+    container_name: api-gateway
+    depends_on:
+      - inventory
+      - booking
+      - order
+    ports:
+      - "8090:8090"
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0

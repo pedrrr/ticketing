@@ -8,8 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-	<groupId>com.ticketing</groupId>
-	<artifactId>booking</artifactId>
+    <artifactId>booking</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>booking</name>
 	<properties>

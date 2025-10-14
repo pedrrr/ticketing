@@ -23,13 +23,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @KafkaListener(topics = "booking", groupId = "order-service")
     public void orderEvent(BookingEvent bookingEvent) {
-        log.info("Recieved booking event: {}", bookingEvent);
+        log.info("Received booking event: {}", bookingEvent);
 
         Order order = createOrder(bookingEvent);
         orderRepository.saveAndFlush(order);
 
         inventoryService.updateInventory(order.getEventId(),  order.getTicketCount());
-        log.info("Inventory updated for event: {}, less tickets: {}.", order.getEventId(), order.getTicketCount());
+        log.info("Inventory updated for event: {}, removed tickets: {}.", order.getEventId(), order.getTicketCount());
     }
     private Order createOrder(BookingEvent bookingEvent){
         return Order.builder()

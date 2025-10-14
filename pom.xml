@@ -18,6 +18,7 @@
 		<module>services/inventory</module>
 		<module>services/booking</module>
         <module>services/order</module>
+        <module>services/gateway</module>
 	</modules>
 	<properties>
 		<java.version>21</java.version>
