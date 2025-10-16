@@ -10,7 +10,7 @@ import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouter
 import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions.http;
 
 @Configuration
-public class BookingServiceRoutesImpl {
+public class BookingServiceRoutes {
 
     @Bean
     public RouterFunction<ServerResponse> bookingServiceRoutes() {

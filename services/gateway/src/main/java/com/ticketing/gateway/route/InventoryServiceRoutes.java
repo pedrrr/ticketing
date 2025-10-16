@@ -11,7 +11,7 @@ import org.springframework.web.servlet.function.ServerResponse;
 import static org.springframework.cloud.gateway.server.mvc.filter.BeforeFilterFunctions.uri;
 
 @Configuration
-public class InventoryServiceRoutesImpl {
+public class InventoryServiceRoutes {
 
     @Bean
     public RouterFunction<ServerResponse> inventoryServiceRoutes() {
