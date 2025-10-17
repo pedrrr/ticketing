@@ -27,7 +27,7 @@ public class InventoryController {
 		return inventoryService.getEventInventory(eventId).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
-	@GetMapping("/venue/{venueId}")
+	@GetMapping("/venues/{venueId}")
 	public ResponseEntity<VenueInventoryResponse> inventoryVenueById(@PathVariable Long venueId) {
 		return inventoryService.getVenueInformation(venueId).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}

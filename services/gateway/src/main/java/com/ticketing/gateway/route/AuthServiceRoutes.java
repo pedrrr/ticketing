@@ -11,15 +11,15 @@ import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouter
 import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions.http;
 
 @Configuration
-public class BookingServiceRoutes {
+public class AuthServiceRoutes {
 
-    @Value("${booking.base.url}")
+    @Value("${auth.base.url}")
     private String baseUrl;
 
-    @Bean(name = "bookingServiceRouter")
-    public RouterFunction<ServerResponse> bookingServiceRoutes() {
-        return route("booking-service").POST("/api/v1/booking", http())
-                .before(uri(baseUrl))
+    @Bean(name = "authServiceRouter")
+    public RouterFunction<ServerResponse> authServiceRoutes() {
+        return route("security-service").POST("/api/v1/auth/signup", http())
+                .before(uri(baseUrl + "/signup"))
                 .build();
     }
 }
